@@ -64,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             //closing activity
             finish();
             //starting login activity
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(new Intent(this, ProfileTabActivity.class));
         }
     }
 }
