@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,8 +33,6 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
 
     private FirebaseAuth firebaseAuth;
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    private Switch sm;
-    private Switch sd;
     private ViewPager mViewPager;
 
     @Override
@@ -71,23 +70,6 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
             }
         });
 
-/*        sm = (Switch) findViewById(R.id.switch1);
-        sd = (Switch) findViewById(R.id.switch2);
-
-        sm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-
-                    Toast.makeText(ProfileTabActivity.this, " motor encendido", Toast.LENGTH_SHORT).show();
-                }
-                else{
-
-                    Toast.makeText(ProfileTabActivity.this, " motor apagado", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        */
 
 
     }
@@ -144,15 +126,14 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_1, container, false);
-           // Button button2 = (Button) rootView.findViewById(R.id.button2);
-            //button2.setOnClickListener(new View.OnClickListener() {
-                //@Override
-                //public void onClick(View v) {
+            ImageButton button2 = (ImageButton) rootView.findViewById(R.id.imageButton2);
+            button2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                 //   getActivity().finish();
-                   // startActivity(new Intent(getActivity(), LoginActivity.class));
-               // }
-          //  });
+                    startActivity(new Intent(getActivity(), MapsActivity.class));
+                }
+            });
 
             Switch sm = (Switch) rootView.findViewById(R.id.switch1);
             Switch sd = (Switch) rootView.findViewById(R.id.switch2);
