@@ -43,15 +43,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         //getting firebase auth object
         firebaseAuth = FirebaseAuth.getInstance();
-
-        //if the objects getcurrentuser method is not null
-        //means user is already logged in
-        if(firebaseAuth.getCurrentUser() != null){
-            //close this activity
-            finish();
-            //opening profile activity
-            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-        }
+        firebaseAuth.signOut();
 
         //initializing views
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);

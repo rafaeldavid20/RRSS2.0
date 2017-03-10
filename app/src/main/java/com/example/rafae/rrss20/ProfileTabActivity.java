@@ -19,27 +19,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.RemoteMessage;
 
-public class ProfileTabActivity extends AppCompatActivity {
+public class ProfileTabActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth firebaseAuth;
-    //private Button buttonLogout;
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * that will host the section contents.
-     */
+    private Switch sm;
+    private Switch sd;
     private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_tab);
 
         firebaseAuth = FirebaseAuth.getInstance();
         if(firebaseAuth.getCurrentUser() == null){
@@ -47,9 +46,8 @@ public class ProfileTabActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
         }
 
+        setContentView(R.layout.activity_profile_tab);
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        //buttonLogout = (Button) findViewById(R.id.button2);
-        //buttonLogout.setOnClickListener(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,6 +71,25 @@ public class ProfileTabActivity extends AppCompatActivity {
             }
         });
 
+/*        sm = (Switch) findViewById(R.id.switch1);
+        sd = (Switch) findViewById(R.id.switch2);
+
+        sm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+
+                    Toast.makeText(ProfileTabActivity.this, " motor encendido", Toast.LENGTH_SHORT).show();
+                }
+                else{
+
+                    Toast.makeText(ProfileTabActivity.this, " motor apagado", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        */
+
+
     }
 
 
@@ -92,23 +109,129 @@ public class ProfileTabActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            finish();
+            startActivity(new Intent(this, LoginActivity.class));
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    public static class Fragment1 extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public Fragment1() {
+        }
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static Fragment1 newInstance(int sectionNumber) {
+            Fragment1 fragment1 = new Fragment1();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment1.setArguments(args);
+            return fragment1;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_1, container, false);
+           // Button button2 = (Button) rootView.findViewById(R.id.button2);
+            //button2.setOnClickListener(new View.OnClickListener() {
+                //@Override
+                //public void onClick(View v) {
+
+                 //   getActivity().finish();
+                   // startActivity(new Intent(getActivity(), LoginActivity.class));
+               // }
+          //  });
+
+            Switch sm = (Switch) rootView.findViewById(R.id.switch1);
+            Switch sd = (Switch) rootView.findViewById(R.id.switch2);
 
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
+
+            sm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                    if(isChecked){
+
+                        Toast.makeText(getActivity(), " motor encendido", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+
+                        Toast.makeText(getActivity(), " motor apagado", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            sd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                    if(isChecked){
+
+                        Toast.makeText(getActivity(), " puertas abiertas", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+
+                        Toast.makeText(getActivity(), " puertas cerradas", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+
+            return rootView;
+        }
+    }
 
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
+
+    public static class Fragment2 extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public Fragment2() {
+        }
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static Fragment2 newInstance(int sectionNumber) {
+            Fragment2 fragment = new Fragment2();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_2, container, false);
+            return rootView;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+
+
+    }
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -120,12 +243,10 @@ public class ProfileTabActivity extends AppCompatActivity {
 
             switch (position) {
                 case 0:
-                    ProfileTab pt = new ProfileTab();
-                    return pt;
+                    return Fragment1.newInstance(position + 1);
 
                 case 1:
-                    NotificationsTab nt = new NotificationsTab();
-                    return nt;
+                    return Fragment2.newInstance(position + 1);
 
             }
             return null;
