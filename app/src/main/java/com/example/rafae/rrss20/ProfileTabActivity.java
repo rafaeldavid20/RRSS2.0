@@ -43,10 +43,16 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
     static DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     static DatabaseReference mConditionRefmotor = mRootRef.child("motor");
     static DatabaseReference mConditionRefdoors = mRootRef.child("doors");
+    static DatabaseReference mConditionRefuser = mRootRef.child("user").child("user");
+    static DatabaseReference mConditionRefmodelo = mRootRef.child("user").child("modelo");
+    static DatabaseReference mConditionRefplaca = mRootRef.child("user").child("placa");
 
 
     private static TextView tvmotor;
     private static TextView tvdoors;
+    private static TextView tvuser;
+    private static TextView tvmodelo;
+    private static TextView tvplaca;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,11 +145,21 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_1, container, false);
             ImageButton button2 = (ImageButton) rootView.findViewById(R.id.imageButton2);
+            ImageButton buttonBt = (ImageButton) rootView.findViewById(R.id.imageButton3);
+
             button2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     startActivity(new Intent(getActivity(), MapsActivity.class));
+                }
+            });
+
+            buttonBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    startActivity(new Intent(getActivity(), BluetoothMode.class));
                 }
             });
 
@@ -153,7 +169,48 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
             Button buttonClose = (Button) rootView.findViewById(R.id.buttonClose);
             tvmotor = (TextView) rootView.findViewById(R.id.textViewMotor);
             tvdoors = (TextView) rootView.findViewById(R.id.textViewPuertas);
+            tvuser = (TextView) rootView.findViewById(R.id.textViewNombre);
+            tvmodelo = (TextView) rootView.findViewById(R.id.textViewModelo);
+            tvplaca = (TextView) rootView.findViewById(R.id.textViewPlaca);
 
+            mConditionRefuser.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String fuser = dataSnapshot.getValue(String.class);
+                    tvuser.setText(fuser);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            mConditionRefmodelo.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String fmodelo = dataSnapshot.getValue(String.class);
+                    tvmodelo.setText(fmodelo);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            mConditionRefplaca.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String fplaca = dataSnapshot.getValue(String.class);
+                    tvplaca.setText(fplaca);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
 
             mConditionRefmotor.addValueEventListener(new ValueEventListener() {
                 @Override

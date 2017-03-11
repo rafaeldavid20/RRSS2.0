@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_bluetooth_mode"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.rafae.rrss20.BluetoothMode"
+    android:background="@color/colorPrimary">
+
+    <Button
+        android:text="CLOSE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/buttonOpenB"
+        android:layout_toRightOf="@+id/buttonOpenB"
+        android:layout_toEndOf="@+id/buttonOpenB"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp"
+        android:id="@+id/buttonCloseB"
+        android:background="@android:color/holo_blue_dark"
+        android:textColor="@android:color/background_light" />
+
+    <Button
+        android:text="ON"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/buttonOpenB"
+        android:layout_alignStart="@+id/buttonOpenB"
+        android:layout_marginBottom="77dp"
+        android:id="@+id/buttonOnB"
+        android:background="@android:color/holo_blue_dark"
+        android:textColor="@android:color/background_light" />
+
+    <Button
+        android:text="OFF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonOffB"
+        android:layout_alignBaseline="@+id/buttonOnB"
+        android:layout_alignBottom="@+id/buttonOnB"
+        android:layout_alignLeft="@+id/buttonCloseB"
+        android:layout_alignStart="@+id/buttonCloseB"
+        android:background="@android:color/holo_blue_dark"
+        android:textColor="@android:color/background_light" />
+
+    <TextView
+        android:text="Estado del Vehiculo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/textViewEstadoB"
+        android:textStyle="normal|bold"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewEstadoB"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="24dp"
+        android:id="@+id/textView3"
+        android:textColor="@android:color/background_light" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/textView4"
+        android:textColor="@android:color/background_light" />
+
+    <Button
+        android:text="Open"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonOpenB"
+        android:layout_marginTop="27dp"
+        android:background="@android:color/holo_blue_dark"
+        android:textColor="@android:color/background_light"
+        android:layout_below="@+id/imageButton5"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/bluetooth_mode"
+        android:id="@+id/imageButton5"
+        android:background="@android:color/transparent"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/buttonOnB"
+        android:layout_toStartOf="@+id/buttonOnB" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/carro"
+        android:id="@+id/imageButton"
+        android:background="@android:color/transparent"
+        android:layout_below="@+id/buttonCloseB"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="11dp" />
+
+</RelativeLayout>
