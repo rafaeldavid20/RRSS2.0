@@ -11,56 +11,134 @@
     android:background="@android:color/transparent"
     android:backgroundTint="@android:color/transparent">
 
-    <Switch
-        android:text="Motor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/switch1"
-        android:layout_marginTop="158dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp" />
-
-    <Switch
-        android:text="Doors"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/switch2"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/switch1"
-        android:layout_alignStart="@+id/switch1" />
-
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/bluetooth_3"
-        android:layout_marginLeft="17dp"
-        android:layout_marginStart="17dp"
-        android:id="@+id/imageButton"
-        android:elevation="2dp"
-        android:tint="@android:color/transparent"
-        android:src="@android:color/transparent"
-        android:foregroundTint="@android:color/transparent"
-        android:foreground="@android:color/transparent"
-        android:backgroundTint="@android:color/transparent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="43dp"
+        android:id="@+id/imageButton3"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="49dp"
         android:background="@android:color/transparent" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/google_maps_512"
-        android:layout_alignBottom="@+id/imageButton"
-        android:layout_toRightOf="@+id/imageButton"
-        android:layout_toEndOf="@+id/imageButton"
-        android:layout_marginLeft="39dp"
-        android:layout_marginStart="39dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:id="@+id/imageButton2"
-        android:background="@android:color/transparent" />
+        android:background="@android:color/transparent"
+        android:layout_alignTop="@+id/imageButton3"
+        android:layout_toRightOf="@+id/imageButton3"
+        android:layout_toEndOf="@+id/imageButton3" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textViewNombre" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewModelo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="12dp"
+        android:id="@+id/textViewPlaca" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/carro"
+        android:id="@+id/imageView3"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="ON"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonOn"
+        android:layout_above="@+id/imageButton2"
+        android:layout_toLeftOf="@+id/buttonOff"
+        android:layout_toStartOf="@+id/buttonOff"
+        android:layout_marginBottom="48dp" />
+
+    <Button
+        android:text="OFF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonOff"
+        android:layout_alignBottom="@+id/buttonOn"
+        android:layout_alignRight="@+id/imageView3"
+        android:layout_alignEnd="@+id/imageView3" />
+
+    <Button
+        android:text="Close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imageView3"
+        android:layout_toRightOf="@+id/buttonOn"
+        android:layout_toEndOf="@+id/buttonOn"
+        android:id="@+id/buttonClose" />
+
+    <Button
+        android:text="Open"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonOpen"
+        android:layout_above="@+id/imageView3"
+        android:layout_toLeftOf="@+id/buttonClose"
+        android:layout_toStartOf="@+id/buttonClose" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:id="@+id/textViewModelo"
+        android:layout_below="@+id/textViewNombre"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Estado del Vehiculo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/textViewEstado"
+        android:textSize="18sp"
+        android:textStyle="normal|bold" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewPuertas"
+        android:layout_alignBaseline="@+id/textViewPlaca"
+        android:layout_alignBottom="@+id/textViewPlaca"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewMotor"
+        android:layout_alignBaseline="@+id/textViewModelo"
+        android:layout_alignBottom="@+id/textViewModelo"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

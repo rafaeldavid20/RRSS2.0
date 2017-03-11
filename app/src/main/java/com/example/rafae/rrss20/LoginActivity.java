@@ -50,10 +50,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         buttonSignIn = (Button) findViewById(R.id.buttonSignin);
 
-
         progressDialog = new ProgressDialog(this);
-
-        //attaching click listener
         buttonSignIn.setOnClickListener(this);
 
     }

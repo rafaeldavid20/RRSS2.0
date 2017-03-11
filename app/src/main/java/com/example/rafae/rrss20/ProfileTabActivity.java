@@ -24,9 +24,15 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class ProfileTabActivity extends AppCompatActivity implements View.OnClickListener {
@@ -34,6 +40,13 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
     private FirebaseAuth firebaseAuth;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    static DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+    static DatabaseReference mConditionRefmotor = mRootRef.child("motor");
+    static DatabaseReference mConditionRefdoors = mRootRef.child("doors");
+
+
+    private static TextView tvmotor;
+    private static TextView tvdoors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,18 +74,10 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
 
 
     }
+
 
 
     @Override
@@ -123,6 +128,13 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
         }
 
         @Override
+        public void onCreate(Bundle savedInstanceState){
+            super.onCreate(savedInstanceState);
+
+        }
+
+
+        @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_1, container, false);
@@ -135,41 +147,74 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
                 }
             });
 
-            Switch sm = (Switch) rootView.findViewById(R.id.switch1);
-            Switch sd = (Switch) rootView.findViewById(R.id.switch2);
+            Button buttonOn = (Button) rootView.findViewById(R.id.buttonOn);
+            Button buttonOff = (Button) rootView.findViewById(R.id.buttonOff);
+            Button buttonOpen = (Button) rootView.findViewById(R.id.buttonOpen);
+            Button buttonClose = (Button) rootView.findViewById(R.id.buttonClose);
+            tvmotor = (TextView) rootView.findViewById(R.id.textViewMotor);
+            tvdoors = (TextView) rootView.findViewById(R.id.textViewPuertas);
 
 
-
-            sm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            mConditionRefmotor.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String fmotor = dataSnapshot.getValue(String.class);
+                    tvmotor.setText(fmotor);
 
-                    if(isChecked){
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            mConditionRefdoors.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String fdoors = dataSnapshot.getValue(String.class);
+                    tvdoors.setText(fdoors);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
+            buttonOn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
                         Toast.makeText(getActivity(), " motor encendido", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
+                        mConditionRefmotor.setValue("on");
+                    }});
 
-                        Toast.makeText(getActivity(), " motor apagado", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
-            sd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            buttonOff.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                public void onClick(View v) {
 
-                    if(isChecked){
+                    Toast.makeText(getActivity(), " motor apagado", Toast.LENGTH_SHORT).show();
+                    mConditionRefmotor.setValue("off");
+                }});
+
+            buttonOpen.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
                         Toast.makeText(getActivity(), " puertas abiertas", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
+                        mConditionRefdoors.setValue("open");
+                }});
 
-                        Toast.makeText(getActivity(), " puertas cerradas", Toast.LENGTH_SHORT).show();
-                    }
+            buttonClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                }
-            });
+                    Toast.makeText(getActivity(), " puertas cerradas", Toast.LENGTH_SHORT).show();
+                    mConditionRefdoors.setValue("close");
+                }});
+
 
             return rootView;
         }
