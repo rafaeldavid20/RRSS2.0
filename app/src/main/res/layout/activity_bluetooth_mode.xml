@@ -22,6 +22,7 @@
         android:layout_marginLeft="11dp"
         android:layout_marginStart="11dp"
         android:id="@+id/buttonCloseB"
+        android:onClick="closeClick"
         android:background="@android:color/holo_blue_dark"
         android:textColor="@android:color/background_light" />
 
@@ -34,6 +35,7 @@
         android:layout_alignStart="@+id/buttonOpenB"
         android:layout_marginBottom="77dp"
         android:id="@+id/buttonOnB"
+        android:onClick="onClick"
         android:background="@android:color/holo_blue_dark"
         android:textColor="@android:color/background_light" />
 
@@ -42,6 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/buttonOffB"
+        android:onClick="offClick"
         android:layout_alignBaseline="@+id/buttonOnB"
         android:layout_alignBottom="@+id/buttonOnB"
         android:layout_alignLeft="@+id/buttonCloseB"
@@ -62,7 +65,6 @@
         android:textSize="18sp" />
 
     <TextView
-        android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewEstadoB"
@@ -70,10 +72,23 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="24dp"
         android:id="@+id/textView3"
-        android:textColor="@android:color/background_light" />
+        android:textColor="@android:color/background_light"
+        android:textStyle="normal|bold"
+        android:textSize="14sp" />
+
+    <Button
+        android:text="Open"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonOpenB"
+        android:onClick="openClick"
+        android:layout_marginTop="27dp"
+        android:background="@android:color/holo_blue_dark"
+        android:textColor="@android:color/background_light"
+        android:layout_below="@+id/imageButton5"
+        android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView3"
@@ -81,17 +96,6 @@
         android:layout_alignParentEnd="true"
         android:id="@+id/textView4"
         android:textColor="@android:color/background_light" />
-
-    <Button
-        android:text="Open"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonOpenB"
-        android:layout_marginTop="27dp"
-        android:background="@android:color/holo_blue_dark"
-        android:textColor="@android:color/background_light"
-        android:layout_below="@+id/imageButton5"
-        android:layout_centerHorizontal="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -108,10 +112,20 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/carro"
         android:id="@+id/imageButton"
+        android:onClick="btClick"
         android:background="@android:color/transparent"
         android:layout_below="@+id/buttonCloseB"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="11dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView4"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/textView2"
+        android:textColor="@android:color/background_light" />
 
 </RelativeLayout>
