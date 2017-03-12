@@ -61,8 +61,6 @@ public class BluetoothMode extends AppCompatActivity {
 
         if (id == R.id.bt_action_settings) {
 
-            mBluetoothServer.stop();
-            mBluetoothServer = null;
             finish();
             startActivity(new Intent(this, ProfileTabActivity.class));
             return true;
