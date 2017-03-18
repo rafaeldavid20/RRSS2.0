@@ -4,6 +4,7 @@ package com.example.rafae.rrss20;
  * Created by rafae on 3/8/2017.
  */
 
+import android.app.IntentService;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;

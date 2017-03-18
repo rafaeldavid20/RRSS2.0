@@ -1,6 +1,7 @@
 package com.example.rafae.rrss20;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +13,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.Set;
 
 public class BluetoothMode extends AppCompatActivity {
 
@@ -20,9 +24,11 @@ public class BluetoothMode extends AppCompatActivity {
     private Button openDoorButton;
     private Button closeDoorButton;
     private Button onButton;
-    private Button offButton;
+    private Button offButton;;
+    private static BluetoothDevice btDevice = null;
+    private static ConnectThread btconnect;
 
-    private BluetoothServer mBluetoothServer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +40,27 @@ public class BluetoothMode extends AppCompatActivity {
         onButton = (Button) findViewById(R.id.buttonOnB);
         offButton = (Button) findViewById(R.id.buttonOffB);
 
-        mBluetoothServer = new BluetoothServer();
-        mBluetoothServer.setListener(mBluetoothServerListener);
+        openDoorButton.setEnabled(false);
+        closeDoorButton.setEnabled(false);
+        onButton.setEnabled(false);
+        offButton.setEnabled(false);
 
-        try {
-            mBluetoothServer.start();
-        } catch (BluetoothServer.BluetoothServerException e) {
-            e.printStackTrace();
-            writeError(e.getMessage());
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            // Device does not support Bluetooth
         }
+
+
+
+        Set<BluetoothDevice> bondedDevices = mBluetoothAdapter.getBondedDevices();
+
+        for (BluetoothDevice dev : bondedDevices) {
+            if (dev.getName().equals("raspberrypi")) {
+                btDevice = dev;
+            }
+        }
+
+        btconnect = new ConnectThread(btDevice);
 
 
     }
@@ -69,67 +87,69 @@ public class BluetoothMode extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+
+
+    }
+
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        try {
+            btconnect.mmSocket.connect();
+            writeMessage("Conectado");
+            openDoorButton.setEnabled(true);
+            closeDoorButton.setEnabled(true);
+            onButton.setEnabled(true);
+            offButton.setEnabled(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+            writeMessage("No fue posible la coneccion");
+            try {
+                btconnect.mmSocket.close();
+            } catch (IOException closeException) { }
+            return;
+        }
+
+    }
+
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        mBluetoothServer.stop();
-        mBluetoothServer = null;
+        try {
+            btconnect.mmSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * Bluetooth server events listener.
-     */
-    private BluetoothServer.IBluetoothServerListener mBluetoothServerListener =
-            new BluetoothServer.IBluetoothServerListener() {
-                @Override
-                public void onStarted() {
-                    writeMessage("waiting for client");
-                    openDoorButton.setEnabled(false);
-                    closeDoorButton.setEnabled(false);
-                    onButton.setEnabled(false);
-                    offButton.setEnabled(false);
-                }
-
-                @Override
-                public void onConnected() {
-                    writeMessage("connected");
-                    openDoorButton.setEnabled(true);
-                    closeDoorButton.setEnabled(true);
-                    onButton.setEnabled(true);
-                    offButton.setEnabled(true);
-                }
-
-                @Override
-                public void onData(byte[] data) {
-                    writeMessage(new String(data));
-                }
-
-                @Override
-                public void onError(String message) {
-                    writeError(message);
-                }
-
-                @Override
-                public void onStopped() {
-                    writeMessage("stopped");
-                    openDoorButton.setEnabled(false);
-                    closeDoorButton.setEnabled(false);
-                    onButton.setEnabled(false);
-                    offButton.setEnabled(false);
-                }
-            };
 
     public void btClick(View view){
 
         try {
-            mBluetoothServer.start();
-        } catch (BluetoothServer.BluetoothServerException e) {
+            btconnect.mmSocket.connect();
+            writeMessage("Conectado");
+            openDoorButton.setEnabled(true);
+            closeDoorButton.setEnabled(true);
+            onButton.setEnabled(true);
+            offButton.setEnabled(true);
+        } catch (IOException e) {
             e.printStackTrace();
-            writeError(e.getMessage());
+            writeMessage("No fue posible la coneccion");
+            try {
+                btconnect.mmSocket.close();
+            } catch (IOException closeException) { }
+            return;
         }
+
 
     }
 
@@ -137,14 +157,12 @@ public class BluetoothMode extends AppCompatActivity {
 
         String message = "on";
         try {
-            mBluetoothServer.send(message.toString().getBytes());
-
-        } catch (BluetoothServer.BluetoothServerException e) {
-            e.printStackTrace();
-            writeError(e.getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
-            writeError(e.getMessage());
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(btconnect.mmSocket.getOutputStream(), "ASCII"));
+            writer.write(message);
+            writer.flush();
+            writeMessage("motor encendido");
+        } catch (IOException ex) {
+            return;
         }
     }
 
@@ -152,14 +170,12 @@ public class BluetoothMode extends AppCompatActivity {
 
         String message = "off";
         try {
-            mBluetoothServer.send(message.toString().getBytes());
-
-        } catch (BluetoothServer.BluetoothServerException e) {
-            e.printStackTrace();
-            writeError(e.getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
-            writeError(e.getMessage());
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(btconnect.mmSocket.getOutputStream(), "ASCII"));
+            writer.write(message);
+            writer.flush();
+            writeMessage("motor apagado");
+        } catch (IOException ex) {
+            return;
         }
     }
 
@@ -167,14 +183,12 @@ public class BluetoothMode extends AppCompatActivity {
 
         String message = "open";
         try {
-            mBluetoothServer.send(message.toString().getBytes());
-
-        } catch (BluetoothServer.BluetoothServerException e) {
-            e.printStackTrace();
-            writeError(e.getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
-            writeError(e.getMessage());
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(btconnect.mmSocket.getOutputStream(), "ASCII"));
+            writer.write(message);
+            writer.flush();
+            writeMessage("puertas abiertas");
+        } catch (IOException ex) {
+            return;
         }
     }
 
@@ -182,14 +196,12 @@ public class BluetoothMode extends AppCompatActivity {
 
         String message = "close";
         try {
-            mBluetoothServer.send(message.toString().getBytes());
-
-        } catch (BluetoothServer.BluetoothServerException e) {
-            e.printStackTrace();
-            writeError(e.getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
-            writeError(e.getMessage());
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(btconnect.mmSocket.getOutputStream(), "ASCII"));
+            writer.write(message);
+            writer.flush();
+            writeMessage("puertas cerradas");
+        } catch (IOException ex) {
+            return;
         }
     }
 
@@ -201,7 +213,4 @@ public class BluetoothMode extends AppCompatActivity {
 
     }
 
-    private void writeError(String message){
-        writeMessage("ERROR: " + message);
-    }
 }

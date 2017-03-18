@@ -2,8 +2,6 @@ package com.example.rafae.rrss20;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -19,12 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,7 +28,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.messaging.RemoteMessage;
 
 public class ProfileTabActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -43,9 +37,10 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
     static DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     static DatabaseReference mConditionRefmotor = mRootRef.child("motor");
     static DatabaseReference mConditionRefdoors = mRootRef.child("doors");
-    static DatabaseReference mConditionRefuser = mRootRef.child("user").child("user");
-    static DatabaseReference mConditionRefmodelo = mRootRef.child("user").child("modelo");
-    static DatabaseReference mConditionRefplaca = mRootRef.child("user").child("placa");
+    static DatabaseReference mConditionRefuser = mRootRef.child("nombre");
+    static DatabaseReference mConditionRefmodelo = mRootRef.child("modelo");
+    static DatabaseReference mConditionRefplaca = mRootRef.child("placa");
+    static DatabaseReference mConditionRefestado = mRootRef.child("estado");
 
 
     private static TextView tvmotor;
@@ -53,6 +48,7 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
     private static TextView tvuser;
     private static TextView tvmodelo;
     private static TextView tvplaca;
+    private static TextView tvestado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,15 +159,50 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
                 }
             });
 
-            Button buttonOn = (Button) rootView.findViewById(R.id.buttonOn);
-            Button buttonOff = (Button) rootView.findViewById(R.id.buttonOff);
-            Button buttonOpen = (Button) rootView.findViewById(R.id.buttonOpen);
-            Button buttonClose = (Button) rootView.findViewById(R.id.buttonClose);
+            final Button buttondesbloqueo = (Button) rootView.findViewById(R.id.buttonDesbloqueo);
+            final Button buttonOff = (Button) rootView.findViewById(R.id.buttonOff);
+            final Button buttonClose = (Button) rootView.findViewById(R.id.buttonClose);
+            buttondesbloqueo.setEnabled(false);
+            buttonClose.setEnabled(false);
+            buttonOff.setEnabled(false);
             tvmotor = (TextView) rootView.findViewById(R.id.textViewMotor);
             tvdoors = (TextView) rootView.findViewById(R.id.textViewPuertas);
             tvuser = (TextView) rootView.findViewById(R.id.textViewNombre);
             tvmodelo = (TextView) rootView.findViewById(R.id.textViewModelo);
             tvplaca = (TextView) rootView.findViewById(R.id.textViewPlaca);
+            tvestado = (TextView) rootView.findViewById(R.id.textViewEstado);
+
+            mConditionRefestado.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String festado = dataSnapshot.getValue(String.class);
+                    tvestado.setText(festado);
+
+                    if(festado.toString().equals("normal")){
+                        buttondesbloqueo.setEnabled(false);
+                        buttonClose.setEnabled(false);
+                        buttonOff.setEnabled(false);
+                    }
+                    else{
+                        buttondesbloqueo.setEnabled(true);
+                        buttonClose.setEnabled(true);
+                        buttonOff.setEnabled(true);
+                        if(festado.toString().equals("alerta")){
+
+                            Toast.makeText(getActivity(), " iniciando", Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(getActivity(), BluetoothMode.class));}
+
+
+                        }
+                    }
+
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
 
             mConditionRefuser.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -240,12 +271,12 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
             });
 
 
-            buttonOn.setOnClickListener(new View.OnClickListener() {
+            buttondesbloqueo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                        Toast.makeText(getActivity(), " motor encendido", Toast.LENGTH_SHORT).show();
-                        mConditionRefmotor.setValue("on");
+                        Toast.makeText(getActivity(), " vehiculo desbloqueado", Toast.LENGTH_SHORT).show();
+                        mConditionRefestado.setValue("normal");
                     }});
 
             buttonOff.setOnClickListener(new View.OnClickListener() {
@@ -256,13 +287,6 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
                     mConditionRefmotor.setValue("off");
                 }});
 
-            buttonOpen.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                        Toast.makeText(getActivity(), " puertas abiertas", Toast.LENGTH_SHORT).show();
-                        mConditionRefdoors.setValue("open");
-                }});
 
             buttonClose.setOnClickListener(new View.OnClickListener() {
                 @Override
