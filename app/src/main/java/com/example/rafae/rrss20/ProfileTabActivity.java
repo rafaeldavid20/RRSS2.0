@@ -35,13 +35,12 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     static DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-    static DatabaseReference mConditionRefmotor = mRootRef.child("motor");
-    static DatabaseReference mConditionRefdoors = mRootRef.child("doors");
-    static DatabaseReference mConditionRefuser = mRootRef.child("nombre");
-    static DatabaseReference mConditionRefmodelo = mRootRef.child("modelo");
-    static DatabaseReference mConditionRefplaca = mRootRef.child("placa");
-    static DatabaseReference mConditionRefestado = mRootRef.child("estado");
-
+    static DatabaseReference mConditionRefmotor;
+    static DatabaseReference mConditionRefdoors;
+    static DatabaseReference mConditionRefuser;
+    static DatabaseReference mConditionRefmodelo;
+    static DatabaseReference mConditionRefplaca;
+    static DatabaseReference mConditionRefestado;
 
     private static TextView tvmotor;
     private static TextView tvdoors;
@@ -49,12 +48,22 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
     private static TextView tvmodelo;
     private static TextView tvplaca;
     private static TextView tvestado;
+    private static String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        uid = firebaseAuth.getCurrentUser().getUid().toString();
+        mConditionRefdoors = mRootRef.child("users").child(uid).child("doors");
+        mConditionRefuser = mRootRef.child("users").child(uid).child("nombre");
+        mConditionRefmodelo = mRootRef.child("users").child(uid).child("modelo");
+        mConditionRefplaca = mRootRef.child("users").child(uid).child("placa");
+        mConditionRefestado = mRootRef.child("users").child(uid).child("estado");
+        mConditionRefmotor = mRootRef.child("users").child(uid).child("motor");
+
+
         if(firebaseAuth.getCurrentUser() == null){
             finish();
             startActivity(new Intent(this, LoginActivity.class));
