@@ -1,8 +1,57 @@
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.rafae.rrss20.MapsActivity" />
+    tools:context="com.example.rafae.rrss20.MapsActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="10dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="1pt"
+            android:background="?attr/colorPrimaryDark"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <EditText
+        android:id="@+id/latitud"
+        android:focusable="false"
+        android:layout_width="100pt"
+        android:layout_height="wrap_content"
+        android:background="@drawable/common_google_signin_btn_text_light"
+        android:hint="Latitud"
+        android:textColorHint="#CFCFCF"
+        android:inputType="text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:enabled="false"
+
+        />
+
+    <EditText android:id="@+id/longitud"
+        android:layout_width="100pt"
+        android:focusable="false"
+        android:layout_height="wrap_content"
+        android:hint="Longitud"
+        android:enabled="false"
+        android:textColorHint="#CFCFCF"
+        android:inputType="text"
+        android:background="@drawable/common_google_signin_btn_text_light"
+        android:layout_marginTop="37dp"
+        />
+
+
+
+
+</fragment>

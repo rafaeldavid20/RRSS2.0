@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.RuntimeExecutionException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,9 +30,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
+
 public class ProfileTabActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private FirebaseAuth firebaseAuth;
+    private static FirebaseAuth firebaseAuth;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     static DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
@@ -41,6 +44,8 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
     static DatabaseReference mConditionRefmodelo;
     static DatabaseReference mConditionRefplaca;
     static DatabaseReference mConditionRefestado;
+    static DatabaseReference mConditionReflongitud;
+    static DatabaseReference mConditionReflatitud;
 
     private static TextView tvmotor;
     private static TextView tvdoors;
@@ -50,40 +55,33 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
     private static TextView tvestado;
     private static String uid;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        uid = firebaseAuth.getCurrentUser().getUid().toString();
-        mConditionRefdoors = mRootRef.child("users").child(uid).child("doors");
-        mConditionRefuser = mRootRef.child("users").child(uid).child("nombre");
-        mConditionRefmodelo = mRootRef.child("users").child(uid).child("modelo");
-        mConditionRefplaca = mRootRef.child("users").child(uid).child("placa");
-        mConditionRefestado = mRootRef.child("users").child(uid).child("estado");
-        mConditionRefmotor = mRootRef.child("users").child(uid).child("motor");
-
 
         if(firebaseAuth.getCurrentUser() == null){
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
 
-        setContentView(R.layout.activity_profile_tab);
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+            setContentView(R.layout.activity_profile_tab);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            // Create the adapter that will return a fragment for each of the three
+            // primary sections of the activity.
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+            // Set up the ViewPager with the sections adapter.
+            mViewPager = (ViewPager) findViewById(R.id.container);
+            mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(mViewPager);
+
 
 
 
@@ -152,11 +150,31 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
             ImageButton button2 = (ImageButton) rootView.findViewById(R.id.imageButton2);
             ImageButton buttonBt = (ImageButton) rootView.findViewById(R.id.imageButton3);
 
+
+
+            try {
+                uid = firebaseAuth.getCurrentUser().getUid().toString();
+                mConditionRefdoors = mRootRef.child("users").child(uid).child("doors");
+                mConditionRefuser = mRootRef.child("users").child(uid).child("nombre");
+                mConditionRefmodelo = mRootRef.child("users").child(uid).child("modelo");
+                mConditionRefplaca = mRootRef.child("users").child(uid).child("placa");
+                mConditionRefestado = mRootRef.child("users").child(uid).child("estado");
+                mConditionRefmotor = mRootRef.child("users").child(uid).child("motor");
+                mConditionReflongitud = mRootRef.child("users").child(uid).child("location").child("longitud");
+                mConditionReflatitud = mRootRef.child("users").child(uid).child("location").child("latitud");
+
+
+            }
+            catch (Exception e){
+                throw new RuntimeExecutionException(e);
+            }
+
             button2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     startActivity(new Intent(getActivity(), MapsActivity.class));
+
                 }
             });
 
@@ -179,7 +197,7 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
             tvuser = (TextView) rootView.findViewById(R.id.textViewNombre);
             tvmodelo = (TextView) rootView.findViewById(R.id.textViewModelo);
             tvplaca = (TextView) rootView.findViewById(R.id.textViewPlaca);
-            tvestado = (TextView) rootView.findViewById(R.id.textViewEstado);
+            tvestado = (TextView) rootView.findViewById(R.id.estado);
 
             mConditionRefestado.addValueEventListener(new ValueEventListener() {
                 @Override

@@ -23,7 +23,6 @@ public class BluetoothMode extends AppCompatActivity {
 
     private Button openDoorButton;
     private Button closeDoorButton;
-    private Button onButton;
     private Button offButton;;
     private static BluetoothDevice btDevice = null;
     private static ConnectThread btconnect;
@@ -37,12 +36,10 @@ public class BluetoothMode extends AppCompatActivity {
 
         openDoorButton = (Button) findViewById(R.id.buttonOpenB);
         closeDoorButton = (Button) findViewById(R.id.buttonCloseB);
-        onButton = (Button) findViewById(R.id.buttonOnB);
         offButton = (Button) findViewById(R.id.buttonOffB);
 
         openDoorButton.setEnabled(false);
         closeDoorButton.setEnabled(false);
-        onButton.setEnabled(false);
         offButton.setEnabled(false);
 
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -63,6 +60,15 @@ public class BluetoothMode extends AppCompatActivity {
         btconnect = new ConnectThread(btDevice);
 
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        //code it to launch an intent to the activity you want
+        Intent intent = new Intent(BluetoothMode.this,ProfileTabActivity.class);
+        startActivity(intent);
+        finish();
+        return true;
     }
 
     @Override
@@ -105,7 +111,6 @@ public class BluetoothMode extends AppCompatActivity {
             writeMessage("Conectado");
             openDoorButton.setEnabled(true);
             closeDoorButton.setEnabled(true);
-            onButton.setEnabled(true);
             offButton.setEnabled(true);
         } catch (IOException e) {
             e.printStackTrace();
@@ -139,7 +144,6 @@ public class BluetoothMode extends AppCompatActivity {
             writeMessage("Conectado");
             openDoorButton.setEnabled(true);
             closeDoorButton.setEnabled(true);
-            onButton.setEnabled(true);
             offButton.setEnabled(true);
         } catch (IOException e) {
             e.printStackTrace();
@@ -151,19 +155,6 @@ public class BluetoothMode extends AppCompatActivity {
         }
 
 
-    }
-
-    public void onClick(View view){
-
-        String message = "on";
-        try {
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(btconnect.mmSocket.getOutputStream(), "ASCII"));
-            writer.write(message);
-            writer.flush();
-            writeMessage("motor encendido");
-        } catch (IOException ex) {
-            return;
-        }
     }
 
     public void offClick(View view){

@@ -13,7 +13,7 @@
     android:background="@color/colorPrimary">
 
     <Button
-        android:text="CLOSE"
+        android:text="CERRAR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/buttonOpenB"
@@ -23,32 +23,6 @@
         android:layout_marginStart="11dp"
         android:id="@+id/buttonCloseB"
         android:onClick="closeClick"
-        android:background="@android:color/holo_blue_dark"
-        android:textColor="@android:color/background_light" />
-
-    <Button
-        android:text="ON"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/buttonOpenB"
-        android:layout_alignStart="@+id/buttonOpenB"
-        android:layout_marginBottom="77dp"
-        android:id="@+id/buttonOnB"
-        android:onClick="onClick"
-        android:background="@android:color/holo_blue_dark"
-        android:textColor="@android:color/background_light" />
-
-    <Button
-        android:text="OFF"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonOffB"
-        android:onClick="offClick"
-        android:layout_alignBaseline="@+id/buttonOnB"
-        android:layout_alignBottom="@+id/buttonOnB"
-        android:layout_alignLeft="@+id/buttonCloseB"
-        android:layout_alignStart="@+id/buttonCloseB"
         android:background="@android:color/holo_blue_dark"
         android:textColor="@android:color/background_light" />
 
@@ -77,7 +51,7 @@
         android:textSize="14sp" />
 
     <Button
-        android:text="Open"
+        android:text="Abrir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/buttonOpenB"
@@ -104,9 +78,7 @@
         android:id="@+id/imageButton5"
         android:onClick="btClick"
         android:background="@android:color/transparent"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/buttonOnB"
-        android:layout_toStartOf="@+id/buttonOnB" />
+        android:layout_alignParentTop="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -127,5 +99,20 @@
         android:layout_alignParentEnd="true"
         android:id="@+id/textView2"
         android:textColor="@android:color/background_light" />
+
+    <Button
+        android:text="APAGAR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonOffB"
+        android:onClick="offClick"
+        android:background="@android:color/holo_blue_dark"
+        android:textColor="@android:color/background_light"
+        android:layout_marginLeft="45dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginBottom="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/buttonOpenB"
+        android:layout_alignStart="@+id/buttonOpenB" />
 
 </RelativeLayout>
