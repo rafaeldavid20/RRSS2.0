@@ -1,7 +1,10 @@
 package com.example.rafae.rrss20;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -86,6 +89,8 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
 
 
     }
+
+
 
 
 
@@ -289,6 +294,7 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String fdoors = dataSnapshot.getValue(String.class);
                     tvdoors.setText(fdoors);
+
                 }
 
                 @Override

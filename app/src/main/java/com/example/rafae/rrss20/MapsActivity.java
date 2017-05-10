@@ -95,17 +95,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Coordenadas coordenadas = dataSnapshot.getValue(Coordenadas.class);
-                latitud = coordenadas.getLatitud();
-                longitud = coordenadas.getLongitud();
-                Log.d("Database", dataSnapshot.toString());
+                String latitudstr = coordenadas.getLatitud();
+                String longitudstr = coordenadas.getLongitud();
+                latitud = Float.parseFloat(latitudstr);
+                longitud = Float.parseFloat(longitudstr);
                 editTextLatitud.setText(String.valueOf(latitud));
                 editTextLongitud.setText(String.valueOf(longitud));
-                LatLng sydney = new LatLng(latitud, longitud);
+                LatLng posVehiculo = new LatLng(latitud, longitud);
                 mMap.clear();
 
-                mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney").draggable(true));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13.0f));
+                mMap.addMarker(new MarkerOptions().position(posVehiculo).title("Aqui se encuentra su vehiculo").draggable(true));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(posVehiculo));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(posVehiculo, 13.0f));
 
             }
 
@@ -114,7 +115,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Log.d("Error",databaseError.getMessage());
             }
         });
-        mRootRef.child("booleana").setValue("true");
 
     }
 }

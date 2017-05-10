@@ -6,10 +6,10 @@ package com.example.rafae.rrss20;
 
 public class Coordenadas {
 
-    public static float latitud;
-    public static float longitud;
+    public static String latitud;
+    public static String longitud;
 
-    public Coordenadas(Object f ,float latitud, float longitud) {
+    public Coordenadas(Object f ,String latitud, String longitud) {
         this.latitud = latitud;
         this.longitud = longitud;
     }
@@ -17,19 +17,19 @@ public class Coordenadas {
     public Coordenadas() {
     }
 
-    public  float getLatitud() {
+    public  String getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(float latitud) {
+    public void setLatitud(String latitud) {
         Coordenadas.latitud = latitud;
     }
 
-    public float getLongitud() {
+    public String getLongitud() {
         return longitud;
     }
 
-    public  void setLongitud(float longitud) {
+    public  void setLongitud(String longitud) {
         Coordenadas.longitud = longitud;
     }
 }
