@@ -13,14 +13,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +37,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class ProfileTabActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -57,6 +62,7 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
     private static TextView tvplaca;
     private static TextView tvestado;
     private static String uid;
+    private static ListView notificaciones;
 
 
     @Override
@@ -341,6 +347,12 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
          * The fragment argument representing the section number for this
          * fragment.
          */
+
+        private ArrayList<String> inicio;
+        private ArrayAdapter<String> adapter;
+        private Date fechaActual;
+
+
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         public Fragment2() {
@@ -362,6 +374,50 @@ public class ProfileTabActivity extends AppCompatActivity implements View.OnClic
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_2, container, false);
+            notificaciones = (ListView) rootView.findViewById(R.id.notificaciones);
+            inicio = new ArrayList<String>();
+            adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,inicio);
+            notificaciones.setAdapter(adapter);
+            fechaActual = new Date();
+
+
+            mConditionRefmotor.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String fmotor = dataSnapshot.getValue(String.class);
+                    fmotor = "motor " + fmotor + " " + new Date().toString();
+
+                    inicio.add(fmotor);
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            mConditionRefdoors.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String fdoors = dataSnapshot.getValue(String.class);
+
+                    fdoors = "puertas " + fdoors + " " + new Date().toString();
+                    inicio.add(fdoors);
+                    adapter.notifyDataSetChanged();
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
+
+
+
             return rootView;
         }
     }
